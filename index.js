@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var bodyParser = require('body-parser');
-// var sensorLib = require("node-dht-sensor");
+var sensorLib = require("node-dht-sensor");
 var firebase = require("firebase");
 var firebase_config = require("./Config/Firebase");
 //var mongoose = require("mongoose");
