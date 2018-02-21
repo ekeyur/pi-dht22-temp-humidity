@@ -28,20 +28,13 @@ var sensor = {
     } ],
     read: function() {
         for (var a in this.sensors) {
-            firebase.database().ref('/').set({
-                sensor: a,
-            },function(){
-                console.log('done');
-            })
             var b = sensorLib.read(this.sensors[a].type, this.sensors[a].pin);
-
             var datapoint = {
                 temperature_c: b.temperature.toFixed(2),
                 humidity_percent: b.humidity.toFixed(2),
                 date: Date.now(),
             }
-
-            firebase.database().ref('/').set(datapoint);
+            firebase.database().ref('/thsensor').push(datapoint);
         }
         setTimeout(function() {
             sensor.read();
@@ -50,7 +43,6 @@ var sensor = {
 };
  
 sensor.read();
-
 
 app.listen(8080, function(){
     console.log('Magic is happening on port 8080');
