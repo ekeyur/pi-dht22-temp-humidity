@@ -1,7 +1,7 @@
 var express = require("express");
 var router = express.Router();
 var bodyParser = require('body-parser');
-var sensorLib = require("node-dht-sensor");
+// var sensorLib = require("node-dht-sensor");
 var firebase = require("firebase");
 var firebase_config = require("./Config/Firebase");
 //var mongoose = require("mongoose");
@@ -14,13 +14,10 @@ app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public'));
 //mongoose.connect('mongodb://localhost/sensordata');
 
+firebase.initializeApp(firebase_config);
+
 router.get('/data/all', function(req,res) {
-    DataPoint.find({}, function (err,data) {
-        if(err) {
-            console.log('ERROR GETTING DATA', err);
-        }
-        res.send(data);
-    })
+    
 })
 
 var sensor = {
@@ -31,22 +28,20 @@ var sensor = {
     } ],
     read: function() {
         for (var a in this.sensors) {
+            firebase.database().ref('/').set({
+                sensor: a,
+            },function(){
+                console.log('done');
+            })
             var b = sensorLib.read(this.sensors[a].type, this.sensors[a].pin);
-            console.log(this.sensors[a].name + ": " +
-              b.temperature.toFixed(2) + "°C, " +
-              b.humidity.toFixed(2) + "%");
 
-            var datapoint = new DataPoint({
+            var datapoint = {
                 temperature_c: b.temperature.toFixed(2),
                 humidity_percent: b.humidity.toFixed(2),
-            });
+                date: Date.now(),
+            }
 
-            datapoint.save(function(err,data){
-                if(err){
-                    console.log('ERROR IN SAVING TO MONGODB', err);
-                }
-                res.send(data);
-            })
+            firebase.database().ref('/').set(datapoint);
         }
         setTimeout(function() {
             sensor.read();
