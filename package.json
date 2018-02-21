@@ -1,0 +1,24 @@
+{
+  "name": "pi-dht22-temp-humidity",
+  "version": "1.0.0",
+  "description": "A backend service that takes the temperature and humidity and push it to database using dht22 sensor and raspberry-pi",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "dht-22",
+    "temperature",
+    "humidity",
+    "raspberry-pi"
+  ],
+  "author": "ekeyur",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "firebase": "^4.10.0",
+    "mongoose": "^5.0.6",
+    "node-dht-sensor": "0.0.34"
+  }
+}
