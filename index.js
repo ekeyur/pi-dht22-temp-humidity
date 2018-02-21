@@ -38,7 +38,7 @@ var sensor = {
         }
         setTimeout(function() {
             sensor.read();
-        }, 10000);
+        }, 30000);
     }
 };
  
