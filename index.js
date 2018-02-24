@@ -4,15 +4,15 @@ var bodyParser = require('body-parser');
 var sensorLib = require("node-dht-sensor");
 var firebase = require("firebase");
 var firebase_config = require("./Config/Firebase");
-//var mongoose = require("mongoose");
-//var DataPoint = require('./Models/DataPoint');
+var mongoose = require("mongoose");
+var DataPoint = require('./Models/DataPoint');
 
 var app = express();
 
 app.use(bodyParser());
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public'));
-//mongoose.connect('mongodb://localhost/sensordata');
+mongoose.connect('mongodb://localhost/sensordata');
 
 firebase.initializeApp(firebase_config);
 
@@ -22,7 +22,7 @@ router.get('/data/all', function(req,res) {
 
 var sensor = {
     sensors: [  {
-        name: "Indoor",
+        name: "Keyur's Window Outside",
         type: 22,
         pin: 4
     } ],
@@ -34,11 +34,13 @@ var sensor = {
                 humidity_percent: b.humidity.toFixed(2),
                 date: Date.now(),
             }
+            // var point = new DataPoint(datapoint);
+            // point.save()
             firebase.database().ref('/thsensor').push(datapoint);
         }
         setTimeout(function() {
             sensor.read();
-        }, 300000);
+        }, 3600000);
     }
 };
  
