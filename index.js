@@ -34,13 +34,17 @@ var sensor = {
                 humidity_percent: b.humidity.toFixed(2),
                 date: Date.now(),
             }
-            // var point = new DataPoint(datapoint);
-            // point.save()
-            firebase.database().ref('/thsensor').push(datapoint);
+            var Point = DataPoint(datapoint);
+            Point.save(function(err,data){
+                if(err) throw err;
+                console.log('Point Created', data);
+            })
+
+            // firebase.database().ref('/thsensor').push(datapoint);
         }
         setTimeout(function() {
             sensor.read();
-        }, 21600000);
+        }, 5000);
     }
 };
  
