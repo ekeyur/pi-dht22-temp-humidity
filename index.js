@@ -44,7 +44,7 @@ var sensor = {
         }
         setTimeout(function() {
             sensor.read();
-        }, 5000);
+        }, 14400000);
     }
 };
  
