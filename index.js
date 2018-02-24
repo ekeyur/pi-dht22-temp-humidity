@@ -35,12 +35,12 @@ var sensor = {
                 date: Date.now(),
             }
             var Point = DataPoint(datapoint);
-            Point.save(function(err,data){
-                if(err) throw err;
-                console.log('Point Created', data);
-            })
+            // Point.save(function(err,data){
+            //     if(err) throw err;
+            //     console.log('Point Created', data);
+            // })
 
-            // firebase.database().ref('/thsensor').push(datapoint);
+            firebase.database().ref('/thsensor').push(datapoint);
         }
         setTimeout(function() {
             sensor.read();
